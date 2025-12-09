@@ -167,5 +167,6 @@ public class BasicGameApp implements Runnable {
 		g.dispose();
 
 		bufferStrategy.show();
+
 	}
 }
