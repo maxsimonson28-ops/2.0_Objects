@@ -10,6 +10,7 @@ public class Asteroid {
     public int height;
     public boolean isAlive;
     public Rectangle hitbox;
+    public boolean isCrashing;
     //a boolean to denote if the hero is alive or dead.
 
 
@@ -24,12 +25,13 @@ public class Asteroid {
     public Asteroid(int pXpos, int pYpos) {
         xpos = pXpos;
         ypos = pYpos;
-        dx =1;
-        dy = 5;
+        dx =10;
+        dy = 0;
         width = 85;
         height = 85;
         isAlive = false;
         hitbox = new Rectangle(xpos,ypos,width,height);
+        isCrashing = false;
 
     } // constructor
 
@@ -37,11 +39,11 @@ public class Asteroid {
     public void move() {
 
         if(xpos>= 1000-width){
-        xpos = 0;
+        xpos = 50;
         }
 
         if(xpos<= 0){
-            xpos = 999-width;
+            xpos = 859-width;
         }
 
         if(ypos <= 0){
@@ -54,6 +56,10 @@ public class Asteroid {
 
         xpos = xpos + dx;
         ypos = ypos + dy;
+
+        hitbox = new Rectangle(xpos,ypos,width,height);
+
+
 
     }
 }
