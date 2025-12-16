@@ -77,8 +77,8 @@ public class BasicGameApp implements Runnable {
         asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");//load the picture
 		astro = new Astronaut(500,350);
         astro2 = new Astronaut(randx,randy);
-        asteroid1 = new Asteroid(100,200);
-        asteroid2 = new Asteroid(200,100);
+        asteroid1 = new Asteroid(randx,randy);
+        asteroid2 = new Asteroid(randx,randy);
 
 
 	}// BasicGameApp()
@@ -114,13 +114,21 @@ public class BasicGameApp implements Runnable {
 
 	}
 
-    public void crashing(){
-        if (astro.hitbox.intersects(astro2.hitbox)){
+    public void crashing() {
+        if (astro.hitbox.intersects(astro2.hitbox)) {
             System.out.println("CRASH!!!!");
-            astro.dx = - astro.dx;
+            astro.dy = -astro.dy;
+            astro2.dy = -astro2.dy;
         }
+        if(asteroid1.hitbox.intersects(asteroid2.hitbox)) {
+            System.out.println("Explode!!");
+            asteroid1.dy = -asteroid1.dy;
+            asteroid2.dy = -asteroid2.dy;
 
+
+        }
     }
+
 
    //Pauses or sleeps the computer for the amount specified in milliseconds
    public void pause(int time ){
