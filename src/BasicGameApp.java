@@ -128,6 +128,7 @@ public class BasicGameApp implements Runnable {
             System.out.println("Explode!!");
             asteroid1.height +=50;
             asteroid1.isCrashing = true;
+            asteroid1.isAlive = false;
 
         }
         if(!asteroid1.hitbox.intersects(asteroid2.hitbox)){
@@ -190,7 +191,8 @@ public class BasicGameApp implements Runnable {
         if(astro2.isAlive == true){
         g.drawImage(astroPic,astro2.xpos,astro2.ypos,astro2.width,astro2.height,null);}
         g.drawImage(asteroidPic, asteroid1.xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
-        g.drawImage(asteroidPic,asteroid2.xpos,asteroid2.ypos,asteroid2.width,asteroid2.height,null);
+        if(asteroid1.isAlive == true){
+        g.drawImage(asteroidPic,asteroid2.xpos,asteroid2.ypos,asteroid2.width,asteroid2.height,null);}
 		g.dispose();
 
 		bufferStrategy.show();
