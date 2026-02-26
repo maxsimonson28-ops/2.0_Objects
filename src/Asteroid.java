@@ -31,7 +31,7 @@ public class Asteroid {
         height = 85;
         isAlive = false;
         hitbox = new Rectangle(xpos,ypos,width,height);
-        isCrashing = false;
+
 
     } // constructor
 

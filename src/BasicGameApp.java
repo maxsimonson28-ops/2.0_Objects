@@ -13,6 +13,8 @@
 
 //Graphics Libraries
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
@@ -21,8 +23,8 @@ import javax.swing.JPanel;
 
 //*******************************************************************************
 // Class Definition Section
-
-public class BasicGameApp implements Runnable {
+//step 1: implement keylistener
+public class BasicGameApp implements Runnable, KeyListener {
 
    //Variable Definition Section
    //Declare the variables used in the program 
@@ -158,7 +160,11 @@ public class BasicGameApp implements Runnable {
    
       // creates a canvas which is a blank rectangular area of the screen onto which the application can draw
       // and trap input events (Mouse and Keyboard events)
-      canvas = new Canvas();  
+      canvas = new Canvas();
+
+      //step 2: set canvas as the key listener
+       canvas.addKeyListener(this);
+
       canvas.setBounds(0, 0, WIDTH, HEIGHT);
       canvas.setIgnoreRepaint(true);
    
@@ -198,4 +204,44 @@ public class BasicGameApp implements Runnable {
 		bufferStrategy.show();
 
 	}
+
+    //step 3: add key listener methods
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("key typed" + e.getKeyCode());
+
+        if(e.getKeyCode()== 38){
+            System.out.println("pressed up arrow");
+            //astro.ypos = astro.ypos - 25;
+            astro.dy = -Math.abs(astro.dy);
+        }
+        if(e.getKeyCode()==40){
+            System.out.println("pressed down arrow");
+            astro.dy = Math.abs(astro.dy);
+        }
+        if(e.getKeyCode()==37){
+            System.out.println("pressed left arrow");
+            astro.dx = -Math.abs(astro.dx);
+        }
+        if(e.getKeyCode()==39){
+            System.out.println("pressed right arrow");
+            astro.dx = Math.abs(astro.dx);
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+
+
+
 }
