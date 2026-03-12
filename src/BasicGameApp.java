@@ -52,6 +52,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     private Astronaut astro2;
     private Asteroid asteroid1;
     private Asteroid asteroid2;
+    public Asteroid[] asteroids;
 
 
    // Main method definition
@@ -87,6 +88,14 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         asteroid1.dx=-asteroid1.dx;
         asteroid2 = new Asteroid(43,249);
 
+        asteroids = new Asteroid[5];
+        for(int x = 0; x < asteroids.length; x++){
+            asteroids[x] = new Asteroid((int)(Math.random()*1000),(int)(Math.random()*700));
+
+
+        }
+
+
 
 	}// BasicGameApp()
 
@@ -110,6 +119,10 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 	}
 
 
+
+
+
+
 	public void moveThings()
 	{
       //calls the move( ) code in the objects
@@ -118,6 +131,9 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         asteroid1.move();
         asteroid2.move();
         crashing();
+        for(int i = 0; i < asteroids.length; i++){
+            asteroids[i].move();
+        }
 
 	}
 
@@ -202,9 +218,15 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         g.drawImage(asteroidPic, asteroid1.xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
         if(asteroid1.isAlive == true){
         g.drawImage(asteroidPic,asteroid2.xpos,asteroid2.ypos,asteroid2.width,asteroid2.height,null);}
-		g.dispose();
 
-		bufferStrategy.show();
+
+
+
+        for(int z = 0; z < asteroids.length; z++){
+            g.drawImage(asteroidPic,asteroids[z].xpos,asteroids[z].ypos,asteroids[z].width,asteroids[z].height,null);
+        }
+        g.dispose();
+        bufferStrategy.show();
 
 	}
 
