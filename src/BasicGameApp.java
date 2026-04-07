@@ -50,7 +50,6 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	private Astronaut astro;
-    private Astronaut astro2;
     private Asteroid asteroid1;
     private Asteroid asteroid2;
     public Asteroid[] asteroids;
@@ -85,8 +84,8 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");//load the picture
         trashPic = Toolkit.getDefaultToolkit().getImage("trash.jpeg");
         backgroundPic = Toolkit.getDefaultToolkit().getImage("starrysky.jpg");
-        astro = new Astronaut(500,350);
-        astro2 = new Astronaut(randx,randy);
+        astro = new Astronaut(500,640);
+
         asteroid1 = new Asteroid(43,255);
         asteroid1.dx=-asteroid1.dx;
         asteroid2 = new Asteroid(43,249);
@@ -132,7 +131,6 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 	{
       //calls the move( ) code in the objects
 		astro.move();
-        astro2.move();
         asteroid1.move();
         asteroid2.move();
         trash1.move();
@@ -144,18 +142,12 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 	}
 
     public void crashing() {
-        if (astro.hitbox.intersects(astro2.hitbox)) {
-            System.out.println("CRASH!!!!");
-            astro.dy = -astro.dy;
-            astro2.dy = -astro2.dy;
-            astro2.isAlive = false;
-        }
+
         if(asteroid1.hitbox.intersects(asteroid2.hitbox)) {
             System.out.println("Explode!!");
-            asteroid1.height +=1;
-            asteroid1.width +=1;
             asteroid1.isCrashing = true;
             asteroid1.isAlive = false;
+
 
         }
         if(asteroid1.hitbox.intersects(asteroid2.hitbox)){
@@ -169,6 +161,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             }
         }
         if(trash1.hitbox.intersects(astro.hitbox)){
+            trash1.isCrashing = true;
             trash1.isAlive = false;
             astro.dx = astro.dx - 5;
             astro.dy = astro.dy - 5;
@@ -233,13 +226,13 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
       //draw the image of the astronaut
 		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
-        if(astro2.isAlive == true){
-        g.drawImage(astroPic,astro2.xpos,astro2.ypos,astro2.width,astro2.height,null);}
+
         g.drawImage(asteroidPic, asteroid1.xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
         if(asteroid1.isAlive == true){
         g.drawImage(asteroidPic,asteroid2.xpos,asteroid2.ypos,asteroid2.width,asteroid2.height,null);}
 
-        g.drawImage(trashPic, .xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
+        if(trash1.isAlive == true){
+        g.drawImage(trashPic, trash1.xpos, trash1.ypos, trash1.width, trash1.height, null);}
 
 
 
@@ -267,20 +260,20 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             System.out.println("pressed up arrow");
             //astro.ypos = astro.ypos - 25;
             astro.dy = -Math.abs(astro.dy);
-            astro.dy = -2;
+            astro.dy = -7;
         }
         if(e.getKeyCode()==40){
             System.out.println("pressed down arrow");
             astro.dy = Math.abs(astro.dy);
-            astro.dy = 2;
+            astro.dy = 7;
         }
         if(e.getKeyCode()==37){
             System.out.println("pressed left arrow");
-            astro.dx = -Math.abs(astro.dx);
+            astro.dx = -10;
         }
         if(e.getKeyCode()==39){
             System.out.println("pressed right arrow");
-            astro.dx = Math.abs(astro.dx);
+            astro.dx = 10;
         }
 
     }
@@ -310,8 +303,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         System.out.println(e.getPoint());
-        astro2.xpos = e.getX();
-        astro2.ypos = e.getY();
+
     }
 
     @Override

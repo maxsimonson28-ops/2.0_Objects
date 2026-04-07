@@ -18,8 +18,8 @@ public class Trash {
         ypos = pYpos;
         dx = 10;
         dy = 0;
-        width = 15;
-        height = 15;
+        width = 35;
+        height = 35;
         isAlive = true;
         hitbox = new Rectangle(xpos, ypos, width, height);
     }
