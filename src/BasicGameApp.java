@@ -54,6 +54,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     private Asteroid asteroid2;
     public Asteroid[] asteroids;
     public Trash trash1;
+    public Trash[] bunchOfTrash;
 
 
    // Main method definition
@@ -84,20 +85,25 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");//load the picture
         trashPic = Toolkit.getDefaultToolkit().getImage("trash.jpeg");
         backgroundPic = Toolkit.getDefaultToolkit().getImage("starrysky.jpg");
-        astro = new Astronaut(500,640);
+        astro = new Astronaut(500,630);
 
         asteroid1 = new Asteroid(43,255);
         asteroid1.dx=-asteroid1.dx;
         asteroid2 = new Asteroid(43,249);
 
-        trash1 = new Trash(34,123);
+        trash1 = new Trash(34,323);
 
-        asteroids = new Asteroid[5];
+        asteroids = new Asteroid[8];
         for(int x = 0; x < asteroids.length; x++){
-            asteroids[x] = new Asteroid((int)(Math.random()*1000),(int)(Math.random()*700));
-
+            asteroids[x] = new Asteroid((int)(Math.random()*1000),(int)(Math.random()*620));
 
         }
+
+        bunchOfTrash = new Trash[4];
+        for(int x = 0; x < bunchOfTrash.length; x++) {
+            bunchOfTrash[x] = new Trash((int) (Math.random() * 500)-400, (int) (Math.random() * 620));
+        }
+
 
 
 
@@ -138,6 +144,9 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         for(int i = 0; i < asteroids.length; i++){
             asteroids[i].move();
         }
+        for(int i = 0; i < bunchOfTrash.length; i++){
+            bunchOfTrash[i].move();
+        }
 
 	}
 
@@ -163,10 +172,37 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         if(trash1.hitbox.intersects(astro.hitbox)){
             trash1.isCrashing = true;
             trash1.isAlive = false;
-            astro.dx = astro.dx - 5;
-            astro.dy = astro.dy - 5;
-            System.out.println("ew");
+
+            if(astro.dx < 0){
+                astro.dx = astro.dx + 7;
+            }
+            else
+            {astro.dx = astro.dx - 7;}
+            if(astro.dy < 0){
+                astro.dy = astro.dy + 7;
+            }
+            else
+            {astro.dy = astro.dy - 7;}
         }
+        for(int x = 0; x < bunchOfTrash.length; x++){
+            if(bunchOfTrash[x].hitbox.intersects(astro.hitbox)){
+                bunchOfTrash[x].isCrashing = true;
+                bunchOfTrash[x].isAlive = false;
+
+                if(astro.dx < 0){
+                    astro.dx = astro.dx + 7;
+                }
+                else
+                {astro.dx = astro.dx - 7;}
+                if(astro.dy < 0){
+                    astro.dy = astro.dy + 7;
+                }
+                else
+                {astro.dy = astro.dy - 7;}
+            }
+        }
+
+
 
     }
 
@@ -225,7 +261,9 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
       //draw the image of the astronaut
+        if (astro.isAlive == true){
 		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+        }
 
         g.drawImage(asteroidPic, asteroid1.xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
         if(asteroid1.isAlive == true){
@@ -240,6 +278,11 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         for(int z = 0; z < asteroids.length; z++){
             g.drawImage(asteroidPic,asteroids[z].xpos,asteroids[z].ypos,asteroids[z].width,asteroids[z].height,null);
         }
+
+        for(int z = 0; z < bunchOfTrash.length; z++){
+            g.drawImage(trashPic,bunchOfTrash[z].xpos,bunchOfTrash[z].ypos,bunchOfTrash[z].width,bunchOfTrash[z].height,null);
+        }
+
         g.dispose();
         bufferStrategy.show();
 

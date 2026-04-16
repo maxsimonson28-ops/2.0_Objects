@@ -30,9 +30,9 @@ public class Trash {
             xpos = 50;
         }
 
-        if(xpos<= 0){
-            xpos = 859-width;
-        }
+//        if(xpos<= 0){
+//            xpos = 859-width;
+//        }
 
         if(ypos <= 0){
             ypos = 700-height;
