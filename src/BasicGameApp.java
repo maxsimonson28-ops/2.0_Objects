@@ -46,6 +46,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     public Image asteroidPic;
     public Image trashPic;
     public Image backgroundPic;
+    public Image startPic;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
@@ -85,6 +86,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");//load the picture
         trashPic = Toolkit.getDefaultToolkit().getImage("trash.jpeg");
         backgroundPic = Toolkit.getDefaultToolkit().getImage("starrysky.jpg");
+        startPic = Toolkit.getDefaultToolkit().getImage("startScreen.png");
         astro = new Astronaut(500,630);
 
         asteroid1 = new Asteroid(43,255);
@@ -257,6 +259,10 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 	private void render() {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+
+        //if (.isAlive == true) {
+            g.drawImage(startPic, 0, 0, WIDTH, HEIGHT, null);
+        }
 
 
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
