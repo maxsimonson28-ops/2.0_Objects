@@ -44,6 +44,7 @@ public class Asteroid {
 
         if(xpos<= 0){
             xpos = 859-width;
+            //code for wrapping on x axis
         }
 
         if(ypos <= 0){
@@ -51,6 +52,7 @@ public class Asteroid {
         }
         if (ypos >= 750-height){
             ypos=1;
+            //code for wrapping on y axis
         }
 
 

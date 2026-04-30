@@ -27,18 +27,20 @@ public class Trash {
     public void move() {
 
         if(xpos>= 1000-width){
-            xpos = 50;
+            dx = -dx;
         }
 
-//        if(xpos<= 0){
-//            xpos = 859-width;
-//        }
+        if(xpos<= 0){
+            dx = -dx;
+            //code for bouncing off walls
+        }
 
         if(ypos <= 0){
             ypos = 700-height;
         }
-        if (ypos >= 750-height){
-            ypos=1;
+        if (ypos >= 700-height){
+            dy = -dy;
+            //code for bouncing off walls
         }
 
 

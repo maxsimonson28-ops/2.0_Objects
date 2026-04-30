@@ -47,9 +47,12 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     public Image trashPic;
     public Image backgroundPic;
     public Image startPic;
-    public boolean startGame;
+    public Image losePic;
+    public Image winPic;                       //these are all my images
+    public boolean startGame;           //this allows me to have a start screen
     public Rectangle startHitbox;
-    public Rectangle mouseHitbox;
+    public Rectangle endHitbox;
+    public Rectangle mouseHitbox;       //these are all my hitboxes
 
 
    //Declare the objects used in the program
@@ -77,41 +80,41 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 	public BasicGameApp() {
       
       setUpGraphics();
-       //range is 1-10
-      int randx = (int)(Math.random()*10)+1;
-      int randy = (int)(Math.random()*10)+1;
 
-      randx = (int)(Math.random()*999)+1;
-      randy = (int)(Math.random()*699)+1;
 
       //variable and objects
-      //create (construct) the objects needed for the game and load up 
+      //create (construct) the objects needed for the game and load up
+        //load the pictures
 		astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png");
-        asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");//load the picture
+        asteroidPic = Toolkit.getDefaultToolkit().getImage("asteroid.jpeg");
         trashPic = Toolkit.getDefaultToolkit().getImage("trash.jpeg");
         backgroundPic = Toolkit.getDefaultToolkit().getImage("starrysky.jpg");
         startPic = Toolkit.getDefaultToolkit().getImage("startScreen.png");
-        startGame = false;
+        startGame = false;  //makes it so the start screen shows
         startHitbox = new Rectangle(318,404,361,40);
-        astro = new Astronaut(500,630);
+        endHitbox = new Rectangle(304,620,395,40);
+        losePic = Toolkit.getDefaultToolkit().getImage("missionFailed.png");
+        winPic = Toolkit.getDefaultToolkit().getImage("astroWin.png");
+        astro = new Astronaut(500,630);//starting position for astronaut
 
 
         asteroid1 = new Asteroid(43,255);
         asteroid1.dx=-asteroid1.dx;
         asteroid2 = new Asteroid(43,249);
+        //create 2 asteroids
 
-        trash1 = new Trash(34,323);
+        trash1 = new Trash(34,323); //creates the trash
 
-        asteroids = new Asteroid[8];
+        asteroids = new Asteroid[8]; //makes a bunch of asteroids
         for(int x = 0; x < asteroids.length; x++){
-            asteroids[x] = new Asteroid((int)(Math.random()*1000),(int)(Math.random()*620));
+            asteroids[x] = new Asteroid((int)(Math.random()*1000),(int)(Math.random()*600)); //creates asteroids at random points
 
         }
 
         bunchOfTrash = new Trash[4];
         for(int x = 0; x < bunchOfTrash.length; x++) {
-            bunchOfTrash[x] = new Trash((int) (Math.random() * 500)-400, (int) (Math.random() * 620));
-        }
+            bunchOfTrash[x] = new Trash((int) (Math.random() * 500)-400, (int) (Math.random() * 600));
+        } //creates trash at random points
 
 
 
@@ -151,31 +154,21 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         trash1.move();
         crashing();
         for(int i = 0; i < asteroids.length; i++){
-            asteroids[i].move();
+            asteroids[i].move(); //allows all my asteroids in array to move
         }
         for(int i = 0; i < bunchOfTrash.length; i++){
-            bunchOfTrash[i].move();
+            bunchOfTrash[i].move(); //allows all my trash in array to move
         }
 
 	}
 
     public void crashing() {
-
-        if(asteroid1.hitbox.intersects(asteroid2.hitbox)) {
-            System.out.println("Explode!!");
-            asteroid1.isCrashing = true;
-            asteroid1.isAlive = false;
-
-
-        }
-        if(asteroid1.hitbox.intersects(asteroid2.hitbox)){
-           // System.out.println("Nothing,");
-            asteroid1.isCrashing = false;
-        }
         for(int x = 0; x < asteroids.length; x++){
             if(asteroids[x].hitbox.intersects(astro.hitbox)){
                 astro.isAlive = false;
+
                 System.out.println("Crashing");
+                //this if statement makes the astronaut die if it hits an asteroid
             }
         }
         if(trash1.hitbox.intersects(astro.hitbox)){
@@ -192,6 +185,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             }
             else
             {astro.dy = astro.dy - 7;}
+            //this if statement makes the astronaut go out of control if it eats the trash
         }
         for(int x = 0; x < bunchOfTrash.length; x++){
             if(bunchOfTrash[x].hitbox.intersects(astro.hitbox)){
@@ -209,6 +203,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
                 else
                 {astro.dy = astro.dy - 7;}
             }
+            //this if statement makes the astronaut go out of control if it eats the trash
         }
 
 
@@ -271,32 +266,44 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         if (startGame == false) {
             g.drawImage(startPic, 0, 0, WIDTH, HEIGHT, null);
             g.drawRect(startHitbox.x,startHitbox.y,startHitbox.width,startHitbox.height);
+            //draws the start screen and allows player to hit the start game button
         }
         else {
 
             g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
-            //draw the image of the astronaut
+            //draw the image of the background
             if (astro.isAlive == true) {
                 g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+                //draw the image of the astronaut
             }
 
-            g.drawImage(asteroidPic, asteroid1.xpos, asteroid1.ypos, asteroid1.width, asteroid1.height, null);
+             //draws asteroid
             if (asteroid1.isAlive == true) {
                 g.drawImage(asteroidPic, asteroid2.xpos, asteroid2.ypos, asteroid2.width, asteroid2.height, null);
             }
-
+            //draws trash
             if (trash1.isAlive == true) {
                 g.drawImage(trashPic, trash1.xpos, trash1.ypos, trash1.width, trash1.height, null);
             }
 
-
+            //draws asteroids in array
             for (int z = 0; z < asteroids.length; z++) {
                 g.drawImage(asteroidPic, asteroids[z].xpos, asteroids[z].ypos, asteroids[z].width, asteroids[z].height, null);
             }
-
+            //draws trash in array
             for (int z = 0; z < bunchOfTrash.length; z++) {
                 g.drawImage(trashPic, bunchOfTrash[z].xpos, bunchOfTrash[z].ypos, bunchOfTrash[z].width, bunchOfTrash[z].height, null);
             }
+            if (astro.isAlive == false) {
+                g.drawImage(losePic,0,0,WIDTH,HEIGHT,null);
+                g.drawRect(endHitbox.x, endHitbox.y, endHitbox.width, endHitbox.height);
+                //if the astronaut dies the losing screen is shown and this allows players to hit try again button
+            }
+            if (astro.ypos < 60) {
+                g.drawImage(winPic,0,0,WIDTH,HEIGHT,null);
+                //if the astronaut gets past the asteroids the win screen is shown
+            }
+
         }
 
         g.dispose();
@@ -320,19 +327,23 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             //astro.ypos = astro.ypos - 25;
             astro.dy = -Math.abs(astro.dy);
             astro.dy = -7;
+            //code for up arrow movement
         }
         if(e.getKeyCode()==40){
             System.out.println("pressed down arrow");
             astro.dy = Math.abs(astro.dy);
             astro.dy = 7;
+            //code for down arrow movement
         }
         if(e.getKeyCode()==37){
             System.out.println("pressed left arrow");
             astro.dx = -10;
+            //code for left arrow movement
         }
         if(e.getKeyCode()==39){
             System.out.println("pressed right arrow");
             astro.dx = 10;
+            //code for right arrow movement
         }
 
     }
@@ -344,11 +355,25 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             //astro.ypos = astro.ypos - 25;
             astro.dy = -Math.abs(astro.dy);
             astro.dy =0;
+            //code for up arrow movement
         }
         if(e.getKeyCode()==40){
             System.out.println("pressed down arrow");
             astro.dy = Math.abs(astro.dy);
             astro.dy = 0;
+            //code for down arrow movement
+        }
+        if(e.getKeyCode()==37){
+            System.out.println("pressed left arrow");
+            astro.dx = Math.abs(astro.dx);
+            astro.dx = 0;
+            //code for left arrow movement
+        }
+        if(e.getKeyCode()==39){
+            System.out.println("pressed right arrow");
+            astro.dx = -Math.abs(astro.dx);
+            astro.dx = 0;
+            //code for right arrow movement
         }
 
     }
@@ -366,12 +391,24 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
         int x = (int) p.getX();
         int y = (int) p.getY();
 
-        System.out.println("Global Mouse Position: " + x + ", " + y);
+        System.out.println("Global Mouse Position: " + x + ", " + y); //prints where the mouse is when pressed
 
         mouseHitbox = new Rectangle(x,y);
+        //all the code above creates a mouse hitbox
 
         if(mouseHitbox.intersects(startHitbox)){
+            startGame = true; //if button is pressed start the game
+        }
+        if(mouseHitbox.intersects(endHitbox)){
             startGame = true;
+            astro.isAlive = true;
+            System.out.println("start again");
+            astro.xpos = 526;
+            astro.ypos = 600;
+            astro.dx = 0;
+            astro.dy = 0;
+            astro.hitbox = new Rectangle(astro.xpos,astro.ypos,astro.width,astro.height);
+            //resetting the game after the user presses "try again"
         }
 
     }
@@ -384,15 +421,11 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         System.out.println("entered!!");
-        astro.dx = 0;
-        astro.dy = 0;
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        System.out.println("exited!!");
-        astro.dx = 0;
-        astro.dy = 0;
 
 
     }
